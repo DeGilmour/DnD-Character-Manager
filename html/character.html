@@ -1,0 +1,262 @@
+{% extends 'header.html' %}
+{% block content %}
+<div id="stats" class="div-stats">
+    <div class="modal" tabindex="-1" role="dialog" id="modal1">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <form action="/character/edit_character" method="post">
+        {% csrf_token %}
+        <div class="border border-black bg-dark mb-5">
+            <label> Name: <input name="name" class="w-25" value="{{character.name}}"></label>
+            <label>Proficiency:+ <input class="w-25" name="proficiency" value="{{saved.proficiency}}"></label>
+            <label>AC: <input class="w-25" name="armor_class" value="{{saved.armor_class}}"></label>
+        </div>
+        <input type="hidden" name="char_id" value="{{char_id}}">
+        <div class="card text-center border border-secondary bg-dark w-50">
+            <div class="card-body">
+                <h5 class="card-title">Charisma</h5>
+                <p class="card-text">{%if saved.charisma %}
+                    <input value="{{saved.charisma}}" name="charisma" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%else%}
+                    <input value="10" name="charisma" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%endif%}
+                    <label for="bonus-{{bonus.charisma}}">Bonus </label><input
+                        class="form-control bg-dark text-white w-25 mx-auto" id="bonus-{{bonus.charisma}}" readonly
+                        value="{{bonus.charisma}}">
+                    <label>Proficiency: <input type="checkbox" aria-describedby="Proficiency"
+                            onclick="attrSaveProficiency(1, {{saved.char_id.pk}}, this)"
+                            {%if 'charisma' in proficiencies_attr%} checked{%endif%} class="mx-auto"></label>
+                </p>
+                <div class="container">
+                    <button onclick="Check(1, {{saved.char_id.pk}})" class="btn btn-primary" type="button">Check
+                    </button>
+                    <button onclick="savingThrow(1, {{saved.char_id.pk}})" class="btn btn-danger" type="button">Sav.
+                        T.
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card text-center border border-secondary mt-5 bg-dark  w-50">
+            <div class="card-body">
+                <h5 class="card-title">Intelligence</h5>
+                <p class="card-text">{%if saved.intelligence %}
+                    <input value="{{saved.intelligence}}" name="intelligence" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%else%}
+                    <input value="10" name="intelligence" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%endif%}
+                    <label for="bonus-{{bonus.intelligence}}">Bonus </label><input
+                        class="form-control bg-dark text-white w-25 mx-auto" id="bonus-{{bonus.intelligence}}" readonly
+                        value="{{bonus.intelligence}}">
+                    <label>Proficiency: <input type="checkbox" aria-describedby="Proficiency"
+                            onclick="attrSaveProficiency(2, {{saved.char_id.pk}}, this)"
+                            {%if 'intelligence' in proficiencies_attr%} checked{%endif%} class="mx-auto"></label>
+                </p>
+                <button onclick="Check(2, {{saved.char_id.pk}})" class="btn btn-primary" type="button">Check</button>
+                <button onclick="savingThrow(2, {{saved.char_id.pk}})" class="btn btn-danger" type="button">Sav.
+                    T.
+                </button>
+            </div>
+        </div>
+
+        <div class="card text-center border border-secondary mt-5 bg-dark  w-50">
+            <div class="card-body">
+                <h5 class="card-title">Constitution</h5>
+                <p class="card-text">{%if saved.constitution %}
+                    <input value="{{saved.constitution}}" name="constitution" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%else%}
+                    <input value="10" name="constitution" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%endif%}
+                    <label for="bonus-{{bonus.constitution}}">Bonus </label><input
+                        class="form-control bg-dark text-white w-25 mx-auto" id="bonus-{{bonus.constitution}}" readonly
+                        value="{{bonus.constitution}}">
+                    <label>Proficiency: <input type="checkbox" aria-describedby="Proficiency"
+                            onclick="attrSaveProficiency(3, {{saved.char_id.pk}}, this)"
+                            {%if 'constitution' in proficiencies_attr%} checked{%endif%} class="mx-auto"></label>
+
+                </p>
+                <button onclick="Check(3, {{saved.char_id.pk}})" class="btn btn-primary" type="button">Check</button>
+                <button onclick="savingThrow(3, {{saved.char_id.pk}})" class="btn btn-danger" type="button">Sav.
+                    T.
+                </button>
+            </div>
+        </div>
+
+        <div class="card text-center border border-secondary mt-5 bg-dark  w-50">
+            <div class="card-body">
+                <h5 class="card-title">Dexterity</h5>
+                <p class="card-text">{%if saved.dexterity %}
+                    <input value="{{saved.dexterity}}" name="dexterity" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%else%}
+                    <input value="10" name="dexterity" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%endif%}
+                    <label for="bonus-{{bonus.dexterity}}">Bonus </label><input
+                        class="form-control bg-dark text-white w-25 mx-auto" id="bonus-{{bonus.dexterity}}" readonly
+                        value="{{bonus.dexterity}}">
+                    <label>Proficiency: <input type="checkbox" aria-describedby="Proficiency"
+                            onclick="attrSaveProficiency(4, {{saved.char_id.pk}}, this)"
+                            {%if 'dexterity' in proficiencies_attr%} checked{%endif%} class="mx-auto"></label>
+                </p>
+                <button onclick="Check(4, {{saved.char_id.pk}})" class="btn btn-primary" type="button">Check</button>
+                <button onclick="savingThrow(4, {{saved.char_id.pk}})" class="btn btn-danger" type="button">Sav.
+                    T.
+                </button>
+            </div>
+        </div>
+
+        <div class="card text-center border border-secondary mt-5 bg-dark  w-50">
+            <div class="card-body">
+                <h5 class="card-title">Wisdom</h5>
+                <p class="card-text">{%if saved.wisdom %}
+                    <input value="{{saved.wisdom}}" name="wisdom" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%else%}
+                    <input value="10" name="wisdom" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%endif%}
+                    <label for="bonus-{{bonus.wisdom}}">Bonus </label><input
+                        class="form-control bg-dark text-white w-25 mx-auto" id="bonus-{{bonus.wisdom}}" readonly
+                        value="{{bonus.wisdom}}">
+                    <label>Proficiency: <input type="checkbox" aria-describedby="Proficiency"
+                            onclick="attrSaveProficiency(5, {{saved.char_id.pk}}, this)"
+                            {%if 'wisdom' in proficiencies_attr%} checked{%endif%} class="mx-auto"></label>
+                </p>
+                <button onclick="Check(5, {{saved.char_id.pk}})" class="btn btn-primary" type="button">Check</button>
+                <button onclick="savingThrow(5, {{saved.char_id.pk}})" class="btn btn-danger" type="button">Sav.
+                    T.
+                </button>
+            </div>
+        </div>
+
+        <div class="card text-center border border-secondary mt-5 bg-dark  w-50">
+            <div class="card-body">
+                <h5 class="card-title">Strength</h5>
+                <p class="card-text">{%if saved.strength %}
+                    <input value="{{saved.strength}}" name="strength" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%else%}
+                    <input value="10" name="strength" placeholder="10"
+                        class="form-control bg-dark text-white w-25 mx-auto">
+                    {%endif%}
+                    <label for="bonus-{{bonus.strength}}">Bonus </label><input
+                        class="form-control bg-dark text-white w-25 mx-auto" id="bonus-{{bonus.strength}}" readonly
+                        value="{{bonus.strength}}">
+                    <label>Proficiency: <input type="checkbox" aria-describedby="Proficiency"
+                            onclick="attrSaveProficiency(6, {{saved.char_id.pk}}, this)"
+                            {%if 'strength' in proficiencies_attr%} checked{%endif%} class="mx-auto"></label>
+                </p>
+                <button onclick="Check(6, {{saved.char_id.pk}})" class="btn btn-primary" type="button">Check</button>
+                <button onclick="savingThrow(6, {{saved.char_id.pk}})" class="btn btn-danger" type="button">Sav.
+                    T.
+                </button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark mx-auto m-5 btn-primary">Edit Stats</button>
+    </form>
+</div>
+
+
+<div id="skills" class="div-skills border border-secondary bg-dark">
+    {% for skill in skills %}
+    <div class="skills">
+        <span>{{skill.skill.name}}</span>
+        <span class=" border border-secondary p-2">{{skill.bonus}}</span>
+        <input type="checkbox" aria-describedby="Proficiency"
+            onclick="saveProficiency({{skill.skill.pk}}, {{saved.char_id.pk}}, this)" {%if skill.proficiency%}
+            checked{%endif%}>
+        <span><button onclick="Skill({{skill.skill.pk}}, {{saved.char_id.pk}})" type="button"
+                class="btn btn-primary">Roll</button></span>
+    </div>
+    {% endfor %}
+</div>
+
+
+<div class="container float-right">
+    <table class="table  weapons-table mx-auto border border-black bg-dark text-white row " id="table_weapons">
+        <thead>
+            <tr>
+                <th scope="col">Weapons</th>
+                <th scope="col">DMG</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {%for weapon in weapons%}
+            <tr>
+                <td><input  class="form-control bg-dark text-white" id="weapon_name_edit_{{weapon.pk}}" name="weapon_to_added" value="{{weapon.name}}"></td>
+                <td><input  class="form-control bg-dark text-white" id="weapon_damage_edit_{{weapon.pk}}" value="{{weapon.number_of_dice}}d{{weapon.dice_type}}"
+                        name="weapon_damage"></td>
+                <td><button class="btn btn-success" type="button"
+                        onclick="saveWeapon({{weapon.pk}})">Save</button><button class="btn btn-primary"
+                        onclick="rollWeaponDamage({{weapon.pk}})">Roll</button><button
+                        class="btn btn-danger">Del</button></td>
+            </tr>
+            {%endfor%}
+            </tr>
+        </tbody>
+    </table>
+    <div class="w-25 mx-auto border border-black bg-dark text-white container float-right row w-25">
+        <button class="btn btn-primary w-75 mx-auto m-2" onclick="AddWeapon({{saved.char_id.pk}})">Add an
+            Attack</button>
+    </div>
+</div>
+
+
+<div>
+    <div class="container float-right mt-5 justify-content-center d-flex">
+        <table class="table  mx-auto border border-black bg-dark text-white" id="table_inventory">
+            <thead>
+                <tr>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {%for item in items%}
+                    <tr>
+                        <td><input id="item_name_edit_{{item_.pk}}" name="item_name" value="{{item.name}}" class="form-control bg-dark text-white"></td>
+                        <td><textarea id="item_description_edit_{{item.description}}"  class="form-control bg-dark text-white">{{item.description}}</textarea>
+                        <td>
+                            <input id="item_weight_edit_{{item.weight}}" name="item_weight" value="{{item.weight}}"  class="form-control bg-dark text-white">
+                        </td>
+                        <td><button class="btn btn-success" type="button"
+                                onclick="saveItem({{item.pk}})">Save</button><button class="btn-danger">X</button>
+                        </td>
+                    </tr>
+                    {%endfor%}
+
+            </tbody>
+        </table>
+    </div>
+    <div class="w-25 mx-auto float-end">
+        <button class="btn btn-primary" onclick="AddItem()">Add an Item</button>
+    </div>
+</div>
+{% endblock %}

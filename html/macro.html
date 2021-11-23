@@ -1,0 +1,27 @@
+{%if add_weapon%}
+<tr>
+    <form action="/character/save_weapon" method="post">
+        <td><input id="weapon_name_{{weapon}}" name="weapon_to_added"  class="form-control bg-dark text-white"></td>
+        <td><input id="weapon_damage_{{weapon}}" name="weapon_damage" class="form-control bg-dark text-white"></td>
+        <td><button class="btn btn-success" type="button" onclick="saveWeapon({{weapon}})">Save</button><button
+                class="btn btn-primary">Roll</button><button class="btn-danger">X</button></td>
+    </form>
+</tr>
+{%endif%}
+
+
+
+{%if add_item%}
+<tr>
+    <td><input id="item_name_{{item_row}}" name="item_name"  class="form-control bg-dark text-white"></td>
+    <td><textarea id="item_description_{{item_row}}"  class="form-control bg-dark text-white">
+
+    </textarea>
+    <td>
+        <input id="item_weight_{{item_row}}" name="item_weight"  class="form-control bg-dark text-white">
+    </td>
+    <td><button class="btn btn-success" type="button" onclick="saveItem({{item_row}})">Save</button><button
+            class="btn-danger">X</button>
+    </td>
+</tr>
+{%endif%}

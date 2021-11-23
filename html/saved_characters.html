@@ -1,0 +1,19 @@
+{% extends 'header.html' %}
+{% block content %}
+<div class="mx-auto" style="width: 70%">
+    <table class="table text-white bg-dark">
+        <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Go To PC</th>
+        </tr>
+        {% for pc in characters %}
+        <tr>
+            <td>{{pc.name}}</td>
+            <td>{{pc.character_class}}</td>
+            <td><a class="btn btn-primary" href="/character/{{pc.pk}}">Go to PC</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

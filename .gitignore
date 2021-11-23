@@ -112,3 +112,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+character_manager/secret_key.txt
